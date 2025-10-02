@@ -1,0 +1,9 @@
+{
+    "validation": {
+        "required": "{field}は必須項目だよ。"
+    },
+    "field": {
+        "userId": "アカウント",
+        "name": ""
+    }
+}
