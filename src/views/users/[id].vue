@@ -7,12 +7,13 @@
                 <div class="col-9">
                     <input type="text" class="form-control" id="userId" v-model="userId">
                     <p>{{ errors.userId }}</p>
+                    <p>{{ userId }}</p>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-3 col-form-label" for="name">Name</label>
                 <div class="col-9">
-                    <input type="text" class="form-control" id="name" v-model="name" v-bind="nameProps">
+                    <input type="text" class="form-control" id="name" v-model="name">
                     <p>{{ errors.name }}</p>
                 </div>
             </div>
@@ -36,6 +37,7 @@ import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
+const route = useRoute();
 const { t } = useI18n();
 
 const schema = yup.object({
@@ -44,15 +46,15 @@ const schema = yup.object({
     isActive: yup.array(yup.string().required()).min(1),
 });
 
-const user = ref({
-    userId: '',
+const user = {
+    userId: '0022',
     name: '',
     isActive: [],
-});
+};
 
-const { errors, defineField, meta, handleSubmit, isSubmitting } = useForm({
+const { values, errors, defineField, meta, handleSubmit, isSubmitting } = useForm({
     validationSchema: schema,
-    initialValues: user.value,
+    initialValues: user,
 });
 
 const [userId, userIdProps] = defineField('userId');
@@ -60,8 +62,6 @@ const [name, nameProps] = defineField('name', {
     validateOnModelUpdate: false,
 });
 const [isActive, isActiveProps] = defineField('isActive');
-
-const route = useRoute();
 
 const isUpdateMode = computed(() => {
     return !!route.params.id;
